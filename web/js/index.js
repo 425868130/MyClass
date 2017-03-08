@@ -41,3 +41,15 @@ function ocultar_login_sign_up() {
     }, 500);
 
 }
+
+
+/*登录*/
+function login() {
+    window.location.href = "homePage.html";
+}
+/*忘记密码表单提交*/
+function forgetSubmit() {
+    /*清空输入*/
+    $("#forgetPsd").find("input").val("");
+    alert("重置申请已发送,请留意管理员短信通知！")
+}

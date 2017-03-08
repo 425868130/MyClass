@@ -18,7 +18,7 @@ public class JDBCUtils {
 	public static final String SQLSERVER_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	
 	// sql server的数据库的url
-	public static final String DB_URL = "jdbc:sqlserver://127.0.0.1:1433;DataBaseName=MyTestDB"; 
+	public static final String DB_URL = "jdbc:sqlserver://127.0.0.1:1433;DataBaseName=classweb";
 	// sql server的数据库的用户名
 	public static final String DB_USER = "sa";  
 	// sql server的数据库的密码

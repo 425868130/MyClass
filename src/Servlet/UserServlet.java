@@ -90,7 +90,7 @@ public class UserServlet extends HttpServlet {
         session = request.getSession();
         User user = (User) session.getAttribute(UserSession);
         if (user == null) {
-            out.println("<script>alert('登录已失效,请重新登录！';window.location.href = \"Login.html\";)<script>");
+            out.println("<script>alert('登录已失效,请重新登录！';window.location.href = \"index.html\";)<script>");
             return null;
         }
         return user.getUser_id();
@@ -105,7 +105,7 @@ public class UserServlet extends HttpServlet {
         /*销毁session*/
         session.invalidate();
         /*转向回登录界面*/
-        resp.sendRedirect("Login.html");
+        resp.sendRedirect("index.html");
     }
 
     /*密码重置的具体动作只限管理员执行*/
