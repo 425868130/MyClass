@@ -1,5 +1,7 @@
 package Utils;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDriver;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,12 +15,11 @@ import java.util.List;
 
 
 public class JDBCUtils {
-	
 	// sql server的连接驱动
 	public static final String SQLSERVER_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	
 	// sql server的数据库的url
-	public static final String DB_URL = "jdbc:sqlserver://127.0.0.1:1433;DataBaseName=classweb";
+	public static final String DB_URL = "jdbc:sqlserver://127.0.0.1:1433;DataBaseName=class_web";
 	// sql server的数据库的用户名
 	public static final String DB_USER = "sa";  
 	// sql server的数据库的密码

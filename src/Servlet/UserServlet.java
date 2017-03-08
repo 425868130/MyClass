@@ -29,10 +29,10 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         String action = req.getParameter("action");
+        System.out.println(action);
         switch (action) {
-            case "User_Login":
+            case "UserLogin":
                 UserLogin(req, resp);
                 break;
             case "UserLogout":
@@ -64,10 +64,11 @@ public class UserServlet extends HttpServlet {
     /*用户登录*/
     protected void UserLogin(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html;charset=utf-8");
         String UserID = req.getParameter("UserID");
         String Psd = req.getParameter("Psd");
         session = req.getSession();
+        System.out.println("Checking User:" + UserID);
         /*判断用户是否可以登录*/
         Boolean status = User_Dao.UserLogin_Check(UserID, Psd);
         if (status) {

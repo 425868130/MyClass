@@ -10,8 +10,9 @@
         .input-group-addon {
             width: 130px;
         }
+
         .input-group {
-           padding: 0px;
+            padding: 0px;
         }
     </style>
 </head>
@@ -56,8 +57,8 @@
         <div class="cont_form_login"><a href="#" onClick="ocultar_login_sign_up()"><i class="material-icons">
             &#xE5C4;</i></a>
             <h2>登录</h2>
-            <input type="text" placeholder="账号"/>
-            <input type="password" placeholder="密码"/>
+            <input type="text" id="LoginUserID" placeholder="账号"/>
+            <input type="password" id="LoginUserPsd" placeholder="密码"/>
             <!--登录按钮，后续添加账号登录判断-->
             <input type="button" class="btn_login" onClick="login()" value="登录" style="text-align: center;color: white">
             <br/>
@@ -93,7 +94,7 @@
             </div>
             <div class="modal-body">
                 <p id="two" align="center">请如实填写一下信息帮助我们判断您的身份</p>
-                <form id="forgetForm" >
+                <form id="forgetForm">
                     <div class="input-group">
                         <span class="input-group-addon">用户名:</span>
                         <input type="text" class="form-control" name="fgUserName"/>
