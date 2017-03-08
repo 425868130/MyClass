@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="content">
+    <button class="btn" style="margin-top: 20px">测试按钮2</button>
+</div>
+
+
+<div id="cell" style="display:none">
+    <div style="border: 1px red solid;margin-top: 20px" class="div">
+        <button class="btn" id="btnTest">测试按钮</button>
+    </div>
+</div>
+
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script>
+    $(function () {
+        var count;
+        /*获取容器*/
+        var content = $("#content");
+
+        for (count = 1; count < 4; count++) {
+            /*修改属性*/
+            var tempCell = $("#cell").find(".btn");
+            var tempDiv = $("#cell").find(".div");
+            /*修改属性*/
+            tempCell.attr("id", "btnTest" + count);
+            tempDiv.attr("id", "div" + count);
+
+            /*获取单元*/
+            var newcell = $("#cell").html();
+            /*装入容器*/
+            content.html(content.html() + newcell);
+            /*提前绑定事件*/
+            content.delegate("#btnTest" + count, "click", function () {
+                //alert(count);
+                //this.remove();
+                /*查找父元素*/
+                $(this).parent(".div").remove();
+
+            })
+
+        }/*for*/
+
+    });
+</script>
+</body>
+</html>

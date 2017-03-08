@@ -1,0 +1,19 @@
+
+iframe {
+    width: 100%;
+}
+
+/*头部背景图*/
+.headerImage {
+    height: 200px;
+    background-image: url("../../images/newBack2.jpg");
+    background-size: cover;
+}
+
+/*导航栏列表*/
+.nav-list li {
+    margin-left: 30px;
+}
+.glyphicon {
+    color: white;
+}

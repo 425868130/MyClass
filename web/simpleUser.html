@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <style type="text/css">
+        /*用户名*/
+        .userName {
+            font-size: 30px;
+        }
+        /*文本截断*/
+        .ellipsisText {
+            display: block; /*以块级元素显示*/
+            overflow: hidden; /*超出的隐藏*/
+            white-space: nowrap; /*禁止换行*/
+            text-overflow: ellipsis; /*超过宽度用....表示*/
+            text-overflow: ellipsis; /* IE/Safari */
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis; /* Opera */
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron" style="padding: 0px">
+    <div class="row">
+        <div class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
+            <img src="images/1.jpg" class="img-responsive img-circle">
+        </div>
+        <div class="col-lg-5">
+            <!--用户昵称-->
+            <div class="row" style="margin-top: 2%">
+                <span class="userName">小明</span>
+            </div>
+            <div class="row">
+                <!--用户签名-->
+                <p class="ellipsisText" style="margin-top: 2%;color: gray;">
+                    说真话不应当是艰难的事情。我所谓真话不是指真理，也不是指正确的话。自己想什麽就讲什麽；自己怎麽想就怎麽说这就是说真话。</p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/simpleUser.js"></script>
+</body>
+</html>

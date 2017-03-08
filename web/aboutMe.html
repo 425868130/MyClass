@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>与我相关</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <style>
+        li {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .title {
+            font-size: 30px;
+        }
+
+        /*消息外边框*/
+        .messageBox {
+            padding: 15px 20px 20px 25px;
+            min-height: 120px;
+        }
+
+        /*消息时间样式*/
+        .Mtime {
+            color: #a1a1a1;
+            font-size: 14px;
+        }
+
+        /*用户名*/
+        .userName {
+            color: blue;
+            font-size: 20px;
+        }
+
+        /*消息的固有文本*/
+        .messageText {
+            font-size: 20px;
+        }
+
+        /*跳转详情*/
+        .jumpDetails {
+            color: gray;
+            font-size: 15px;
+            float: right;
+            margin-top: 10px;
+        }
+
+        /*附加消息*/
+        .attachInfo {
+            color: #a1a1a1;
+        }
+        /*审核按钮*/
+        .btn-examine {
+            margin-top: 40px;
+            margin-left: 10px;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!--消息表-->
+    <div class="col-lg-5">
+        <div class="row" style="text-align: center">
+            <span class="title"><span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;评论和回复</span>
+        </div>
+        <!--第二行为消息主体-->
+        <div class="row" style="margin-top: 30px">
+            <ul id="MessageList">
+                <li>
+                    <!--消息盒子-->
+                    <div class="messageBox well">
+                        <p class="Mtime">2017-2-28 14：33</p>
+                        <span class="userName">小明</span>
+                        <span class="messageText">评论了你的动态 :</span>
+                        <span id="messageContent" class="messageText">这些照片拍得真不错啊！</span>
+                        <a href="#" class="jumpDetails"><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;查看详情</a>
+                    </div>
+                </li>
+
+                <li>
+                    <!--消息盒子-->
+                    <div class="messageBox well">
+                        <p class="Mtime">2017-2-28 14：33</p>
+                        <span class="userName">小华</span>
+                        <span class="messageText">评论了你的动态 :</span>
+                        <span class="messageText">我也这么觉得！</span>
+                        <a href="#" class="jumpDetails"><span class="glyphicon glyphicon-chevron-right"></span>&nbsp;查看详情</a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!--竖直分割线-->
+    <div class="col-lg-1">
+        <hr style="width: 1px; height: 600px;background-color: black;margin-top: 70px"/>
+    </div>
+
+    <!--系统通知表-->
+    <div class="col-lg-5">
+        <div class="row" style="text-align: center">
+            <span class="title"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;系统通知</span>
+        </div>
+        <!--系统通知主体内容-->
+        <div class="row" style="margin-top: 30px">
+            <ul id="SystemList">
+                <li>
+                    <!--消息盒子-->
+                    <div class="messageBox well">
+                        <p class="Mtime">2017-2-28 10：23</p>
+                        <span class="userName">SYSTEM</span>
+                        <span class="messageText">:恭喜，您的密码已重置为123456，请尽快到个人中心修改为新密码！</span>
+                    </div>
+                </li>
+
+                <!--验证型消息-->
+                <li>
+                    <!--消息盒子-->
+                    <div class="messageBox well">
+                        <p class="Mtime">2017-2-28 10：23</p>
+                        <span class="userName">SYSTEM</span>
+                        <span class="messageText">:用户&nbsp;</span>
+                        <span class="userName">Dream</span>
+                        <span class="messageText">提交了注册申请,是否通过？</span>
+                        <span class="attachInfo">联系方式:<span class="userTel">17709084233</span></span>
+                        <button class="btn btn-primary btn-examine" onclick="userPass()">通过</button>
+                        <button class="btn btn-danger btn-examine" onclick="userRefuse()">拒绝</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+    /*同意申请的处理逻辑*/
+    function userPass() {
+        alert("已同意该用户的申请！");
+    }
+
+    /*拒绝申请的处理逻辑*/
+    function userRefuse() {
+        alert("已拒绝该用户的申请！");
+    }
+</script>
+</body>
+</html>

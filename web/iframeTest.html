@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--主体内容框-->
+<div id="content">
+    <iframe src="Dynamic.jsp" frameborder="0" seamless scrolling="no" id="contentFrame"
+            name="contentFrame" style="width:80%;" onload="iframeAdjust()">
+    </iframe>
+</div>
+<script>
+
+    /*动态调整iframe的高度*/
+    function iframeAdjust() {
+        var contentIfm = document.getElementById("contentFrame");
+        contentIfm.height = contentIfm.contentWindow.document.documentElement.scrollHeight;
+    }
+    window.onresize = function () {
+        iframeAdjust();
+    }
+</script>
+</body>
+</html>
