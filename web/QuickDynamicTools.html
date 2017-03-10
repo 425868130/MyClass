@@ -25,11 +25,11 @@
                     <span class="glyphicon glyphicon-camera" style="padding-top: 0px"></span>&nbsp;添加照片
                 </button>
                 <!--选择相册的按钮,附加一个下拉菜单用于选择相册-->
-                <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+                <button class="btn btn-default btn-lg dropdown-toggle" type="button" data-toggle="dropdown" onclick="selectAlbum()">
                     <span class="glyphicon glyphicon-paperclip" style="padding-top: 0px"></span>&nbsp;选择相册&nbsp;<span
                         class="caret"></span>
                 </button>
-                <ul class="dropdown dropdown-menu pull-right">
+                <ul class="dropdown dropdown-menu pull-right" id="AlbumList">
                     <li><a href="#">默认相册</a></li>
                     <li><a href="#">我的班级</a></li>
                     <li><a href="#">相册3</a></li>
@@ -39,7 +39,8 @@
         </div>
         <p style="color: #969696;font-size: 15px;width: 350px;margin-left: 20px;display: inline">已选相册:&nbsp;《<span
                 style="color: blue">我的班级</span>》</p>
-        <button class="btn btn-primary btn-lg col-lg-offset-10" type="submit" style="width: 6%;margin-top: 10px">发表</button>
+        <button class="btn btn-primary btn-lg col-lg-offset-10" type="submit" style="width: 6%;margin-top: 10px">发表
+        </button>
 
         <!--照片预览面板-->
         <div class="panel panel-default"
@@ -55,5 +56,6 @@
 </div>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/QuickDynamicTools.js"></script>
 </body>
 </html>

@@ -31,6 +31,7 @@ function loadDynamic(MaxDynamic) {
         replace_btnComment.attr("href", "#commentCollapse" + Num);
         replace_commentPanel.attr("id", "commentCollapse" + Num);
         /*绑定处理事件*/
+
         //点赞
         Container.delegate("#thUpImg" + Num, "click", thumbsUp);
 

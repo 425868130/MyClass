@@ -10,90 +10,94 @@ import java.util.List;
 public class User_Dao {
     private static User user;
 
-    /*获取单个用户*/
-    public static User getUser(String UserID) {
+    //获取用户个人信息
+    public static User getUser(String UserID) throws SQLException {
         JDBCUtils.getConnection();
-        List<String> paramList = new ArrayList<>();
+        List<String> paramList = new ArrayList<String>();
         paramList.add(UserID);
         user = new User();
         String sql = "exec Pce_User_Detail ?";
         JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-                user.setUser_id(JDBCUtils.rs.getString(1));
-                user.setnickname(JDBCUtils.rs.getString(2));
-                user.sethead_portiait(JDBCUtils.rs.getString(3));
-                user.setsignature(JDBCUtils.rs.getString(4));
-                user.setsex(JDBCUtils.rs.getString(5));
-                user.settelephone(JDBCUtils.rs.getString(6));
-                user.setlogin_num(JDBCUtils.rs.getInt(7));
-                user.setlogin_time(JDBCUtils.rs.getString(8));
-                user.setonline(JDBCUtils.rs.getByte(9));
-                user.setlevel(JDBCUtils.rs.getByte(10));
-                user.setcheck(JDBCUtils.rs.getByte(11));
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        while (JDBCUtils.rs.next()) {
+            user.setUser_id(JDBCUtils.rs.getString(1));
+            user.setnickname(JDBCUtils.rs.getString(2));
+            user.sethead_portiait(JDBCUtils.rs.getString(3));
+            user.setsignature(JDBCUtils.rs.getString(4));
+            user.setsex(JDBCUtils.rs.getString(5));
+            user.settelephone(JDBCUtils.rs.getString(6));
+            user.setlogin_num(JDBCUtils.rs.getInt(7));
+            user.setlogin_time(JDBCUtils.rs.getString(8));
+            user.setonline(JDBCUtils.rs.getByte(9));
+            user.setlevel(JDBCUtils.rs.getByte(10));
+            user.setcheck(JDBCUtils.rs.getByte(11));
         }
+        JDBCUtils.closeAll();
         return user;
     }
 
-    /*修改密码*/
-    public static void ChangePsd(String UserID, String PSD) {
+    /*判断该用户是否已经存在*/
+    public static boolean HasUser(String UserID) {
+        JDBCUtils.getConnection();
+        List<String> paramList = new ArrayList<>();
+        paramList.add(UserID);
+        String sql = "exec Pce_User_Simpleinfo ?";
+        JDBCUtils.queryData(sql, paramList);
+        try {
+            if (JDBCUtils.rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("hasUser:" + false);
+        return false;
+    }
+
+    //修改密码
+    public static boolean ChangePsd(String UserID, String PSD) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         paramList.add(PSD);
         String sql = "exec Pce_User_Change_psd ?,?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*改变用户权限等级*/
-    public static void ChangeLevel(String UserID) {
+    //修改用户权限等级
+    public static boolean ChangeLevel(String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         String sql = "exec Pce_User_Changelevel ?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*用户审核*/
-    public static void UserCheck(String UserID) {
+    //用户审核
+    public static boolean UserCheck(String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         String sql = "exec Pce_User_Check ?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*修改用户信息*/
-    public static void UserChange_Info(String UserID, String Nickname, String Telephone, String Signature, String Sex, String Head_portiait) {
+    //用户信息修改
+    public static boolean UserChange_Info(String UserID, String Nickname, String Telephone, String Signature, String Sex, String Head_portiait) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
@@ -103,79 +107,72 @@ public class User_Dao {
         paramList.add(Sex);
         paramList.add(Head_portiait);
         String sql = "exec Pce_User_Change ?,?,?,?,?,?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*用户登录*/
-    public static void UserLogin(String UserID) {
+    //用户登录
+    public static boolean UserLogin(String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         String sql = "exec Pce_User_Login ?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
 
     }
 
-    /*用户注销*/
-    public static void UserLogout(String UserID) {
+    //用户注销
+    public static boolean UserLogout(String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         String sql = "exec Pce_User_Logout ?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*重置密码*/
-    public static void UserResetPsd(String UserID) {
+    //重置密码
+    public static boolean UserResetPsd(String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         String sql = "exec Pce_User_ResetPsd ?";
-        JDBCUtils.queryData(sql, paramList);
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    /*删除未审核的用户*/
-    public static void DeleteUncheck_User(String UserID) {
+    //删除未审核的用户
+    public static boolean DeleteUncheck_User(String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         String sql = "exec Pce_Delete_Uncheck_User ?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*用户登录检测*/
+    //用户登录信息的审核
     public static boolean UserLogin_Check(String UserID, String Psd) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
@@ -184,40 +181,42 @@ public class User_Dao {
         String sql = "exec Pce_User_Login_Check ?,?";
         JDBCUtils.queryData(sql, paramList);
         try {
-            if (JDBCUtils.rs.getRow() == 0) {
-                return false;
-            } else {
+            if (JDBCUtils.rs.next()) {
+                JDBCUtils.closeAll();
                 return true;
+            } else {
+                JDBCUtils.closeAll();
+                return false;
             }
-
-
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
     }
 
-    /*用户注册*/
-    public static void UserReg(String UserID, String Psd, String Telephone) {
+    //用户注册
+    public static boolean UserReg(String UserID, String Psd, String Telephone) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         paramList.add(Psd);
         paramList.add(Telephone);
         String sql = "exec Pce_User_Reg ?,?,?";
-        JDBCUtils.queryData(sql, paramList);
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
         try {
-            while (JDBCUtils.rs.next()) {
-            }
-
+            JDBCUtils.closeAll();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*在线用户列表*/
+    //获取用户在线情况
     public static List<User> OnlineUser() {
         JDBCUtils.getConnection();
         List<User> userList = new ArrayList<>();
@@ -232,6 +231,11 @@ public class User_Dao {
                 user.setlogin_num(JDBCUtils.rs.getInt(4));
                 user.setonline(JDBCUtils.rs.getByte(5));
                 userList.add(user);
+/*                System.out.println(user.getUser_id());
+                System.out.println(user.getnickname());
+                System.out.println(user.getlogin_time());
+                System.out.println(user.getlogin_num());
+                System.out.println(user.getonline());*/
             }
 
         } catch (SQLException e) {
@@ -241,7 +245,7 @@ public class User_Dao {
         return userList;
     }
 
-    /*管理员用户表*/
+    //获取管理人员的账号id
     public static List<String> AdminUser() {
         JDBCUtils.getConnection();
         List<String> stringList = new ArrayList<>();
@@ -249,9 +253,8 @@ public class User_Dao {
         JDBCUtils.queryData(sql, null);
         try {
             while (JDBCUtils.rs.next()) {
-                String string = JDBCUtils.rs.getString(1);
+                String string = JDBCUtils.rs.getString(1).trim();
                 stringList.add(string);
-                System.out.println(string);
             }
 
         } catch (SQLException e) {
@@ -260,5 +263,4 @@ public class User_Dao {
         }
         return stringList;
     }
-
 }

@@ -20,8 +20,8 @@ import com.google.gson.Gson;
  */
 @WebServlet("/AnnounceServlet")
 public class AnnounceServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,92 +30,97 @@ public class AnnounceServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doPost(request,response);
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doPost(request, response);
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String action=request.getParameter("action");
-		switch (action) {
-		case "publishAnnounce":
-			publishAnnounce(request,response);
-			break;
-		case "LoadAnnounce":
-			LoadAnnounce(request,response);
-			break;
-		case "NewAnnounce":
-			NewAnnounce(request,response);
-			break;
-		case "DeleteAnnounce":
-			DeleteAnnounce(request,response);
-			break;
-		default:
-			break;
-		}
-		
-	}
-	
-	protected void publishAnnounce(HttpServletRequest request, HttpServletResponse response) {
-		String UserID=request.getParameter("UserID");
-		String AnnounceContent=request.getParameter("AnnounceContent");
-		String Theme=request.getParameter("Theme");
-		List<String> AdminUser = User_Dao.AdminUser();
-		for(String user: AdminUser){
-			if(user.equals(UserID)){
-				Announce_Dao.AddAnnounce(UserID, AnnounceContent, Theme);
-				return;
-			}
-		}
-		try {
-			response.getWriter().print("fail");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	protected void LoadAnnounce(HttpServletRequest request, HttpServletResponse response) {
-		List<Announce> announceList = Announce_Dao.AllAnnounce();
-				Gson gson=new Gson();
-				String RspAnnounce= gson.toJson(announceList);
-				try {
-					response.getWriter().println(RspAnnounce);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        String action = request.getParameter("action");
+        switch (action) {
+            case "publishAnnounce":
+                publishAnnounce(request, response);
+                break;
+            case "LoadAnnounce":
+                LoadAnnounce(request, response);
+                break;
+            case "NewAnnounce":
+                NewAnnounce(request, response);
+                break;
+            case "DeleteAnnounce":
+                DeleteAnnounce(request, response);
+                break;
+            default:
+                break;
+        }
 
     }
-	protected void NewAnnounce(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Announce announce = Announce_Dao.getAnnounce();
-		Gson gson=new Gson();
-		String RspAnnounce= gson.toJson(announce);
-		response.getWriter().println(RspAnnounce);
-}
-	protected void DeleteAnnounce(HttpServletRequest request, HttpServletResponse response) {
-		int AnnounceID=Integer.parseInt(request.getParameter("AnnounceID"));
-		String UserID=request.getParameter("UserID");
-		List<String> AdminUser = User_Dao.AdminUser();
-		for(String user: AdminUser){
-			if(user.equals(UserID)){
-				Announce_Dao.DeleteAnnounce(AnnounceID);
-				return;
-			}
-		}
-		try {
-			response.getWriter().print("fail");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+
+    protected void publishAnnounce(HttpServletRequest request, HttpServletResponse response) {
+        String UserID = request.getParameter("UserID");
+        String AnnounceContent = request.getParameter("AnnounceContent");
+        String Theme = request.getParameter("Theme");
+        List<String> AdminUser = User_Dao.AdminUser();
+        for (String user : AdminUser) {
+            if (user.equals(UserID)) {
+                Announce_Dao.AddAnnounce(UserID, AnnounceContent, Theme);
+                return;
+            }
+        }
+        try {
+            response.getWriter().print("fail");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    protected void LoadAnnounce(HttpServletRequest request, HttpServletResponse response) {
+        List<Announce> announceList = Announce_Dao.AllAnnounce();
+        Gson gson = new Gson();
+        String RspAnnounce = gson.toJson(announceList);
+        try {
+            response.getWriter().println(RspAnnounce);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /*获取最新一条公告*/
+    protected void NewAnnounce(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json;charset=utf-8");
+        Announce announce = Announce_Dao.getAnnounce();
+        Gson gson = new Gson();
+        String RspAnnounce = gson.toJson(announce);
+        response.getWriter().println(RspAnnounce);
+    }
+
+    protected void DeleteAnnounce(HttpServletRequest request, HttpServletResponse response) {
+        int AnnounceID = Integer.parseInt(request.getParameter("AnnounceID"));
+        String UserID = request.getParameter("UserID");
+        List<String> AdminUser = User_Dao.AdminUser();
+        for (String user : AdminUser) {
+            if (user.equals(UserID)) {
+                Announce_Dao.DeleteAnnounce(AnnounceID);
+                return;
+            }
+        }
+        try {
+            response.getWriter().print("fail");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -16,6 +16,11 @@ $(function () {
                 $(".homeNoticeContent").html(announce.content);
                 $(".NoticeTime").html(announce.Announce_time);
             },
+            error:function () {
+                $(".NoticeTitle").html("加载失败");
+                $(".homeNoticeContent").html();
+                $(".NoticeTime").html();
+            }
         }
     );
 })

@@ -1,7 +1,5 @@
 package Utils;
 
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -37,7 +35,7 @@ public class JDBCUtils {
 	public static void getConnection(){
 		try {
 			Class.forName(SQLSERVER_DRIVER);
-			System.out.println("尝试连接数据库......");
+			//System.out.println("尝试连接数据库......");
 			con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -46,7 +44,7 @@ public class JDBCUtils {
 			System.out.println("数据库连接失败！");
 			e.printStackTrace();
 		}
-		System.out.println("数据库连接成功！");
+		//System.out.println("数据库连接成功！");
 	}
 
 	/**
@@ -107,9 +105,9 @@ public class JDBCUtils {
 			
 			// 获取sql语句后的结果
 			rs = pstm.executeQuery();
-			System.out.println("SQL语句执行成功！");
+			//System.out.println("SQL语句执行成功！");
 		} catch (SQLException sqlE) {
-			System.out.println("SQL 语句执行失败！");
+			//System.out.println("SQL 语句执行失败！");
 			sqlE.printStackTrace();
 		} catch (NullPointerException nullPointerE) {
 			nullPointerE.printStackTrace();

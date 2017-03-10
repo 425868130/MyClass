@@ -2,6 +2,14 @@
  * Created by Dream Sky on 2017/3/4.
  */
 
+$(
+    function () {
+        alert("hello");
+
+    }
+);
+
+
 /*动态调整iframe的高度*/
 function iframeAdjust() {
     var iframe = document.getElementById("contentFrame");
@@ -24,4 +32,8 @@ function hideToolBars() {
     document.getElementById("notice").style.display = "none";
     /*跳转其他页面时恢复主体内容框的宽度*/
     document.getElementById("contentFrame").style.width = "100%";
+}
+/*用户注销*/
+function UserLogout() {
+    $.get("/UserServlet?action=UserLogout&nocache=" + new Date().getTime());
 }

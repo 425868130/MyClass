@@ -67,15 +67,15 @@
         </div>
 
         <!--卡片展开后的注册框-->
-        <div class="cont_form_sign_up"><a href="#" onClick="ocultar_login_sign_up()"><i class="material-icons">
+        <div class="cont_form_sign_up"><a href="#" onclick="ocultar_login_sign_up()"><i class="material-icons">
             &#xE5C4;</i></a>
             <h2>注册</h2>
-            <input type="text" placeholder="账号">
-            <input type="password" placeholder="密码">
-            <input type="password" placeholder="确认密码">
-            <input type="tel" placeholder="手机号码">
+            <input type="text" placeholder="账号" id="RegCount">
+            <input type="password" placeholder="密码" id="RegPsd">
+            <input type="password" placeholder="确认密码" id="RegPsdConfirm">
+            <input type="tel" placeholder="手机号码"id="Regtell">
             <!--账号注册功能实现-->
-            <button class="btn_sign_up" onClick="cambiar_sign_up()">注册</button>
+            <button class="btn_sign_up"onclick="regCount()">注册</button>
         </div>
 
     </div>
@@ -96,7 +96,7 @@
                 <p id="two" align="center">请如实填写一下信息帮助我们判断您的身份</p>
                 <form id="forgetForm">
                     <div class="input-group">
-                        <span class="input-group-addon">用户名:</span>
+                        <span class="input-group-addon">账号:</span>
                         <input type="text" class="form-control" name="fgUserName"/>
                     </div>
                     <div class="input-group">

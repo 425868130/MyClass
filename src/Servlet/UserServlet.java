@@ -2,6 +2,7 @@ package Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.Message_Dao;
 import DAO.User_Dao;
 import Entities.User;
 import com.google.gson.Gson;
@@ -30,13 +32,16 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String action = req.getParameter("action");
-        System.out.println(action);
+        System.out.println("action:" + action);
         switch (action) {
             case "UserLogin":
                 UserLogin(req, resp);
                 break;
             case "UserLogout":
                 UserLogout(req, resp);
+                break;
+            case "ForgetPsd":
+                ForgetPsd(req, resp);
                 break;
             case "psdReset":
                 psdReset(req, resp);
@@ -56,6 +61,9 @@ public class UserServlet extends HttpServlet {
             case "isAdmin":
                 isAdmin(req, resp);
                 break;
+            case "IsUerOnline":
+                IsUerOnline(req, resp);
+                break;
             default:
                 break;
         }
@@ -68,18 +76,20 @@ public class UserServlet extends HttpServlet {
         String UserID = req.getParameter("UserID");
         String Psd = req.getParameter("Psd");
         session = req.getSession();
-        System.out.println("Checking User:" + UserID);
         /*判断用户是否可以登录*/
         Boolean status = User_Dao.UserLogin_Check(UserID, Psd);
         if (status) {
             /*如果用户可以登录则执行dao的登录方法修改用户在线信息并设置session*/
             User_Dao.UserLogin(UserID);
-            User user = User_Dao.getUser(UserID);
-            session.setAttribute(UserSession, user);
-            resp.getWriter().println("true");
-        } else {
-            resp.getWriter().println("false");
+            User user = null;
+            try {
+                user = User_Dao.getUser(UserID);
+                session.setAttribute(UserSession, user);
+            } catch (SQLException e) {
+                System.out.println("获取用户信息失败！");
+            }
         }
+        resp.getWriter().println(status);
     }
 
     /**
@@ -89,6 +99,7 @@ public class UserServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         PrintWriter out = response.getWriter();
         session = request.getSession();
+        System.out.println("isUserOnline");
         User user = (User) session.getAttribute(UserSession);
         if (user == null) {
             out.println("<script>alert('登录已失效,请重新登录！';window.location.href = \"index.html\";)<script>");
@@ -97,16 +108,38 @@ public class UserServlet extends HttpServlet {
         return user.getUser_id();
     }
 
+    /*忘记密码*/
+    protected void ForgetPsd(HttpServletRequest request, HttpServletResponse respons) throws IOException {
+        respons.setContentType("text;utf-8");
+        String userId = request.getParameter("userName");
+        String userTel = request.getParameter("userTell");
+        if (User_Dao.HasUser(userId)) {
+            respons.getWriter().println("true");
+            String msg = "用户" + userId + "请求重置密码,是否同意！附加消息，联系方式：" + userTel;
+            List<String> adminUser = User_Dao.AdminUser();
+        /*向所有管理员发送消息*/
+            for (String admin : adminUser) {
+                Message_Dao.AddMessage(admin, "SYSTEM", 0, msg, "SYSTEM");
+            }
+        } else {
+            respons.getWriter().println("same");
+        }
+    }
+
     /*用户注销*/
     protected void UserLogout(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        String UserID = req.getParameter("UserID");
-        User_Dao.UserLogout(UserID);
-        /*销毁session*/
+        resp.setContentType("text;charset=utf-8");
+        System.out.println("UserLogout");
+        /*从session中获取已登录的用户id*/
+        session = req.getSession();
+        String UserID = ((User) session.getAttribute(UserSession)).getUser_id();
+        if (UserID != null) {
+             /*通过Dao方法修改数据库中用户数据*/
+            User_Dao.UserLogout(UserID);
+        }
+        /*清空session*/
         session.invalidate();
-        /*转向回登录界面*/
-        resp.sendRedirect("index.html");
     }
 
     /*密码重置的具体动作只限管理员执行*/
@@ -140,13 +173,32 @@ public class UserServlet extends HttpServlet {
     }
 
     /*用户注册*/
-    protected void UserReg(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+    protected void UserReg(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text;charset=UTF-8");
         String UserID = req.getParameter("UserID");
         String Psd = req.getParameter("Psd");
         String Telephone = req.getParameter("Telephone");
-        User_Dao.UserReg(UserID, Psd, Telephone);
+        /*注册前先判断用户是否存在*/
+        boolean hasUser = User_Dao.HasUser(UserID);
+        if (hasUser) {
+            resp.getWriter().println("same");
+            System.out.println("same");
+            return;
+        } else {
+            /* 返回DAO的操作结果给前台*/
+
+            System.out.println("UserReg OK");
+            User_Dao.UserReg(UserID, Psd, Telephone);
+            resp.getWriter().println("true");
+
+            String msg = "用户 " + UserID + " 提交了注册申请,是否通过？";
+            List<String> adminUser = User_Dao.AdminUser();
+        /*向所有管理员发送消息*/
+            for (String admin : adminUser) {
+                Message_Dao.AddMessage(admin, "SYSTEM", 0, msg, "SYSTEM");
+            }
+        }
+
     }
 
 

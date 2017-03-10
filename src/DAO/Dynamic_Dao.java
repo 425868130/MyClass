@@ -12,7 +12,7 @@ import java.util.List;
 public class Dynamic_Dao {
     private static Dynamic dynamic;
 
-    //获取单条动态详情
+    //获取单条动态的信息
     public static Dynamic getDynamic(int DynamicID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
@@ -38,58 +38,52 @@ public class Dynamic_Dao {
         return dynamic;
     }
 
-    /*添加动态*/
-    public static void AddDynamic(String UserID, int AlbumID, String DynamicContent) {
+    //发表动态
+    public static boolean AddDynamic(String UserID, int AlbumID, String DynamicContent) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         paramList.add(AlbumID);
         paramList.add(DynamicContent);
         String sql = "exec Pce_Add_Dynamic ?,?,?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
-    /*删除新动态*/
-    public static void DeleteDynamic(int DynamicID) {
+
+    //删除动态
+    public static boolean DeleteDynamic(int DynamicID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(DynamicID);
         String sql = "exec Pce_Delete_Dynamic ?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
-    /*动态点赞*/
-    public static void DynamicLike(int DynamicID, String UserID) {
+
+    //动态点赞
+    public static boolean DynamicLike(int DynamicID, String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(DynamicID);
         paramList.add(UserID);
         String sql = "exec Pce_Dynamic_Like ?,?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
-    /**/
+
+    //动态浏览量
     public static void DynamicPageView(int DynamicID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
@@ -106,7 +100,7 @@ public class Dynamic_Dao {
         }
     }
 
-    /*获取所有动态*/
+    //获取所有动态
     public static List<Dynamic> AllDynamic() {
         JDBCUtils.getConnection();
         List<Dynamic> dynamicList = new ArrayList<>();
@@ -132,7 +126,7 @@ public class Dynamic_Dao {
         return dynamicList;
     }
 
-    /*个人动态列表*/
+    //获取个人的所有动态
     public static List<Dynamic> PersonalDynamic(String UserID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
@@ -160,7 +154,7 @@ public class Dynamic_Dao {
         return dynamicList;
     }
 
-    /*热门动态*/
+    //获取热门动态（点赞数排前五）
     public static List<Dynamic> HotDynamic() {
         JDBCUtils.getConnection();
         List<Dynamic> dynamicList = new ArrayList<>();
@@ -170,7 +164,7 @@ public class Dynamic_Dao {
             while (JDBCUtils.rs.next()) {
                 Dynamic dynamic = new Dynamic();
                 dynamic.setDynamic_id(JDBCUtils.rs.getInt(1));
-                dynamic.setUser_id(JDBCUtils.rs.getString(2));
+                dynamic.setUser_id(JDBCUtils.rs.getString(2).trim());
                 dynamic.setAlbum_id(JDBCUtils.rs.getInt(3));
                 dynamic.setDynamic_time(JDBCUtils.rs.getString(4));
                 dynamic.setDynamic_content(JDBCUtils.rs.getString(5));
@@ -186,7 +180,7 @@ public class Dynamic_Dao {
         return dynamicList;
     }
 
-    /*单个动态的全部消息*/
+    //获取单条动态相关的所有消息
     public static List<Message> DynamicMessage(int DynamicID) {
         List paramList = new ArrayList();
         paramList.add(DynamicID);
@@ -204,6 +198,7 @@ public class Dynamic_Dao {
                 message.setMessage_content(JDBCUtils.rs.getString(6));
                 message.setMessage_type(JDBCUtils.rs.getString(7));
                 messageList.add(message);
+
             }
 
         } catch (SQLException e) {
@@ -213,7 +208,7 @@ public class Dynamic_Dao {
         return messageList;
     }
 
-    /*单个动态的全部照片*/
+    //获取单条动态的所有照片
     public static List<Photo> DynamicPhoto(int DynamicID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();

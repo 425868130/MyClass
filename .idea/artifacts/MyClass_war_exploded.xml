@@ -9,6 +9,7 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="gson-2.8.0" />
+          <element id="library" level="project" name="sqljdbc42" />
         </element>
       </element>
     </root>

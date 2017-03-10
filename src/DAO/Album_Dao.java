@@ -8,11 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class Album_Dao{
+public class Album_Dao {
     private static Album album;
 
-    /*获取单个相册*/
+    //获取相册信息
     public static Album getAlbum(int AlbumID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
@@ -35,72 +34,58 @@ public class Album_Dao{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-/*        System.out.println(album.getAlbum_id());
-        System.out.println(album.getUser_id());
-        System.out.println(album.getAlbum_name());
-        System.out.println(album.getAlbum_time());
-        System.out.println(album.getAlbum_description());
-        System.out.println(album.getphoto_num());
-        System.out.println(album.getCover_photo());*/
         return album;
     }
 
-    /*创建相册*/
-    public static void AddAlbum(String UserID, String AlbumName, String AlbumDescription) {
+    //创建新的相册
+    public static boolean AddAlbum(String UserID, String AlbumName, String AlbumDescription) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(UserID);
         paramList.add(AlbumName);
         paramList.add(AlbumDescription);
         String sql = "exec Pce_Add_Album ?,?,?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-    /*修改相册信息*/
-    public static void AlbumChange(int AlbumID, String AlbumName, String AlbumDescription) {
+    //相册信息修改
+    public static boolean AlbumChange(int AlbumID, String AlbumName, String AlbumDescription) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(AlbumID);
         paramList.add(AlbumName);
         paramList.add(AlbumDescription);
         String sql = "exec Pce_Album_Change ?,?,?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
+
     }
 
-    /*删除相册*/
-    public static void DeleteAlbum(int AlbumID) {
+    //删除相册
+    public static boolean DeleteAlbum(int AlbumID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
         paramList.add(AlbumID);
         String sql = "exec Pce_Delete_Album ?";
-        JDBCUtils.queryData(sql, paramList);
-        try {
-            while (JDBCUtils.rs.next()) {
-            }
-
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        int Rfcount = JDBCUtils.updateData(sql, paramList);
+        if (Rfcount > 0) {
+            return true;
+        } else {
+            return false;
         }
+
     }
 
-    /*获取一个相册内的所有照片*/
+    //获取相册里的每张照片
     public static List<Photo> AlbumPhoto(int AlbumID) {
         JDBCUtils.getConnection();
         List paramList = new ArrayList();
@@ -127,17 +112,16 @@ public class Album_Dao{
         return photoList;
     }
 
-
-    /*获取相册封面*/
+    //获取相册里的第一张照片，如果没有返回系统给的一张照片
     public static String CoverPhoto(int AlbumID) {
         List<Photo> list = AlbumPhoto(AlbumID);
         if (list.isEmpty()) {
-            return "imgages/emptyAlbum.jpg";
+            return "images/Default/DefaultAlbumCover.jpg";
         }
         return list.get(0).getsave();
     }
 
-    /*获取所有相册列表*/
+    //获取所有相册信息
     public static List<Album> AllAlbum() {
         JDBCUtils.getConnection();
         List<Album> albumList = new ArrayList<>();
@@ -153,12 +137,6 @@ public class Album_Dao{
                 album.setAlbum_description(JDBCUtils.rs.getString(5));
                 album.setphoto_num(JDBCUtils.rs.getInt(6));
                 albumList.add(album);
-/*                System.out.println(album.getAlbum_id());
-                System.out.println(album.getUser_id());
-                System.out.println(album.getAlbum_name());
-                System.out.println(album.getAlbum_time());
-                System.out.println(album.getAlbum_description());
-                System.out.println(album.getphoto_num());*/
             }
 
         } catch (SQLException e) {
