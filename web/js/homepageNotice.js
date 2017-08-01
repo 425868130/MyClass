@@ -13,7 +13,7 @@ $(function () {
             success: function (data) {
                 var announce = eval(data);
                 $(".NoticeTitle").html(announce.theme);
-                $(".homeNoticeContent").html(announce.content);
+                $(".homeNoticeContent").html(announce.AnnounceContent);
                 $(".NoticeTime").html(announce.Announce_time);
             },
             error:function () {

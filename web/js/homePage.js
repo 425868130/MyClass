@@ -1,25 +1,6 @@
 /**
  * Created by Dream Sky on 2017/3/4.
  */
-
-$(
-    function () {
-        alert("hello");
-
-    }
-);
-
-
-/*动态调整iframe的高度*/
-function iframeAdjust() {
-    var iframe = document.getElementById("contentFrame");
-    var bHeight = iframe.contentWindow.document.documentElement.scrollHeight + 50;
-    iframe.height = bHeight;
-
-}
-window.onresize = function () {
-    iframeAdjust();
-}
 /*跳转到主页面时显示部分元素*/
 function displayToolBars() {
     document.getElementById("publish").style.display = "block";

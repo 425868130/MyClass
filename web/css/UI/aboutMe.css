@@ -1,0 +1,45 @@
+.messageCell li {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.title {
+    font-size: 30px;
+}
+
+/*消息时间样式*/
+.Mtime {
+    color: #a1a1a1;
+    font-size: 14px;
+}
+
+/*用户名*/
+.userName {
+    color: blue;
+    font-size: 20px;
+}
+
+/*消息的固有文本*/
+.messageText {
+    font-size: 20px;
+}
+
+/*跳转详情*/
+.jumpDetails {
+    color: gray;
+    font-size: 15px;
+    float: right;
+    margin-top: 40px;
+}
+
+/*附加消息*/
+.attachInfo {
+    color: #a1a1a1;
+}
+
+/*审核按钮*/
+.btn-examine {
+    margin-top: 40px;
+    margin-left: 10px;
+    outline: none;
+}

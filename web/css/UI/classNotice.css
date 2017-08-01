@@ -1,0 +1,52 @@
+.h3Title {
+    margin: 0px;
+    padding: 0px;
+}
+
+.NoticeJumbotron {
+    padding: 10px;
+    margin-left: 27%;
+    margin-top: 20px;
+    min-height: 200px;
+}
+
+.NoticeContent {
+    font-size: 20px;
+    text-indent: 2em;
+}
+
+/*消息时间样式*/
+.NoticeTime {
+    color: #a1a1a1;
+    font-size: 14px;
+    float: right;
+    margin-top: 20%;
+}
+
+.Publisher {
+    color: #a1a1a1;
+    font-size: 14px;
+    float: left;
+    margin-top: 20%;
+}
+
+#BtnNotice a {
+    cursor: pointer;
+}
+
+#NoticeTitle {
+    margin-left: 45%;
+}
+
+#InputAContent {
+    max-height: 300px;
+    max-width: 480px
+}
+
+#pageSelect {
+    margin-left: 30%;
+}
+
+#pageSelect a {
+    cursor: pointer;
+}

@@ -1,0 +1,38 @@
+/*相册浮动菜单*/
+.albumMenu {
+    display: none;
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    top: 3px;
+    right: 0px;
+
+    color: white;
+    /*透明蒙板层*/
+    background-color:rgba(0,0,0,0.5);
+}
+
+.albumMenu button {
+    padding: 0px;
+    width: 30px;
+    height: 20px;
+}
+
+/*单个相册外层容器*/
+.albumDIV {
+    margin-top: 20px;
+    margin-left: 15px;
+    padding: 0px;
+    box-shadow: 1px 1px 2px #979797;
+}
+
+/*鼠标移入相册容器时显示浮动菜单*/
+.albumDIV:hover .albumMenu {
+    display: block;
+}
+
+.floatMenu {
+    color: #1b6d85;
+    cursor: pointer;
+    font-size: 20px;
+}

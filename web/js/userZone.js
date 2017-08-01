@@ -1,6 +1,36 @@
 /**
  * Created by Dream Sky on 2017/3/3.
  */
+
+/*加载用户详细信息*/
+$(function () {
+    $.ajax(
+        {
+            url: "/UserServlet",
+            type: "POST",
+            dataType: "json",
+            data: {
+                "action": "UserInformation",
+                "nocache": new Date().getTime()
+            },
+            success: function (data) {
+                var user = eval(data);
+                /*加载用户信息到网页*/
+                $("#userCount").html(user.User_id);
+                $("#userNick").html(user.nickname);
+                $("#userSex").html(user.sex);
+                $("#userTel").html(user.telephone);
+                $("#userLoginTime").html(user.onlineTime);
+                $("#userSign").html(user.signature);
+                $("#userImg").attr("src", user.head_portiait);
+            },
+            error: function () {
+                alert("网络错误!");
+            }
+        }
+    );
+});
+
 function getById(ElementID) {
     return document.getElementById(ElementID);
 }
@@ -24,20 +54,68 @@ function editInform() {
     editFlag = 1;
 }
 
-/*确定按钮*/
+/*信息修改确定按钮*/
 function confirmEdit() {
-    buttonDisplay(false);
-    var userNick = getById("userNick");
-    var userSex = getById("userSex");
-    var userTel = getById("userTel");
-    var userSign = getById("userSign");
-    /*将新用户信息替换到网页*/
-    userNick.innerHTML = getById("InputNick").value;
-    userSex.innerHTML = getById("InputSex").value;
-    userTel.innerHTML = getById("InputTel").value;
-    userSign.innerHTML = getById("InputSign").value;
-    alert("修改成功！");
-    editFlag = 0;
+    var nickname = document.getElementById("InputNick").value;
+    var telephone = document.getElementById("InputTel").value;
+    var re = /^[1-9]+[0-9]*]*$/;
+    if (nickname.length == 0 && telephone.length == 0) {
+        alert("请填写完整的个人信息！");
+    }
+    else if (nickname.length == 0) {
+        alert("用户昵称不能为空")
+    }
+    else if (telephone.length == 0) {
+        alert("联系方式不能为空！");
+    }
+    else if (!re.test(telephone)) {
+        alert("输入的手机号码只能为数字！");
+    }
+    else if (nickname.length < 13 && telephone.length < 13) {
+        /*输入合法*/
+        var userNick = getById("userNick");
+        var userSex = getById("userSex");
+        var userTel = getById("userTel");
+        var userSign = getById("userSign");
+        editFlag = 0;
+        /*将新的用户信息上传到服务器*/
+        $.ajax(
+            {
+                url: "/UserServlet",
+                type: "POST",
+                dataType: "text",
+                data: {
+                    "action": "UserChangeIfo",
+                    "nocache": new Date().getTime(),
+                    "Nickname": $("#InputNick").val(),
+                    "Telephone": $("#InputTel").val(),
+                    "Signature": $("#InputSign").val(),
+                    "Sex": $("#InputSex").val()
+                },
+                success: function (data) {
+                    var reVal = data.trim();
+                    if (reVal == "true") {
+                        alert("修改成功");
+                        /*将新用户信息替换到网页*/
+                        userNick.innerHTML = getById("InputNick").value;
+                        userSex.innerHTML = getById("InputSex").value;
+                        userTel.innerHTML = getById("InputTel").value;
+                        userSign.innerHTML = getById("InputSign").value;
+                        buttonDisplay(false);
+                    } else {
+                        alert("修改失败，请重试！");
+                    }
+                },
+                error: function () {
+                    alert("网络异常,请稍后重试！");
+                }
+            }
+        );
+    }
+    else {
+        alert("用户信息过长或输入错误！");
+    }
+
 }
 
 /*控制按钮的隐藏和显示*/
@@ -55,20 +133,50 @@ function buttonDisplay(isdDisplay) {
 
 /*修改密码*/
 function ChangePwd() {
-    var originalPwd = getById("originalPwd").value;
-    var newPwd = getById("newPwd").value;
-    var confirmPwd = getById("confirmPwd").value;
+    /*隐藏模态窗口*/
+    $('#userZoneModal').modal('hide');
+    var form = $("#ModalForm");
+    var originalPwd = form.find(".originalPwd").val();
+    var newPwd = form.find(".newPwd").val();
+    var confirmPwd = form.find(".confirmPwd").val();
     if (originalPwd.length == 0 || newPwd.length == 0 || confirmPwd.length == 0) {
         alert("请输入正确的密码!");
+        return;
+    } else if (originalPwd.length > 12 || newPwd.length > 12 || confirmPwd.length > 12) {
+        alert("密码不得超过12位");
         return;
     } else if (newPwd != confirmPwd) {
         alert("新密码和确认密码不一致!");
         return;
     }
-
-    alert("密码修改成功,下次登录请使用新密码!");
-    /*隐藏模态窗口*/
-    $('#userZoneModal').modal('hide');
+    /*输入合法则向服务器传递数据并修改密码*/
+    $.ajax({
+        url: "/UserServlet",
+        type: "POST",
+        dataType: "text",
+        data: {
+            "action": "ChangePsd",
+            "nocache": new Date().getTime(),
+            "oldPwd": originalPwd,
+            "newPwd": newPwd
+        },
+        success: function (data) {
+            var result = data.trim();
+            if (result == "true") {
+                alert("密码修改成功,下次登录请使用新密码!");
+                location.reload();
+            } else if (result == "offline") {
+                alert("登录超时,请重新登录！");
+                window.location.href = "../html/index.html";
+            } else {
+                alert("原密码错误,修改失败！");
+                location.reload();
+            }
+        },
+        error: function () {
+            alert("网络异常,请重试");
+        }
+    });
 }
 
 
@@ -83,10 +191,23 @@ function onBtnChangePwd() {
 
 /*修改头像事件*/
 function ChangeImg() {
-    /*头像修改处理逻辑*/
-    alert("头像修改成功!");
     /*隐藏模态窗口*/
     $('#userZoneModal').modal('hide');
+    var ajax_option = {
+        url: "/UserImgUpload",
+        type: "POST",
+        dataType: "text",
+        success: function (data) {
+            var result = data.trim();
+            if (result == "true") {
+                alert("头像修改成功!");
+                location.reload();
+            } else {
+                alert("上传失败");
+            }
+        }
+    };
+    $("#ModalForm").find("form").ajaxSubmit(ajax_option);
 }
 /*按下修改头像按钮时触发*/
 function onBtnChangeImg() {

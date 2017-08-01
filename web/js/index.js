@@ -72,7 +72,7 @@ function login() {
                 /*请求成功判断服务器返回值*/
                 success: function (data) {
                     if (data.toString().trim() == "true") {
-                        window.location.href = "homePage.html";
+                        window.location.href = "../homePage.jsp";
                     } else {
                         $("#LoginUserPsd").val("");
                         alert("登录失败,用户名或密码错误！");
