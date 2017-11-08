@@ -1,0 +1,52 @@
+* {
+    /*border: solid #6694ff 1px;*/
+}
+
+/*用户头像样式*/
+.userImage {
+    max-width: 120px;
+    max-height: 120px;
+    width: auto;
+    height: 100%;
+}
+
+/*动态文本样式*/
+.DynamicContents {
+    margin-top: 20px;
+}
+
+.dynamicText {
+}
+
+/*用户名样式*/
+.simpleUserName {
+    color: blue;
+    font-size: 15px;
+}
+
+/*动态相关信息*/
+.DynamicInfo {
+    margin-top: 15px;
+}
+
+/*动态照片样式*/
+.dynamicPhotos {
+    max-width: 255px;
+    max-height: 200px;
+}
+
+/*单张照片单页格样式*/
+.SinglePhoto {
+    padding: 2px;
+}
+
+/*该样式用于消除交互控件的边框以及被选中时的外矩形框*/
+.noneGround {
+    border: none;
+    outline: none;
+}
+
+/*评论文本样式*/
+.commentText {
+    font-size: 15px;
+}
